@@ -1,6 +1,6 @@
 package com.project.asset_management.entities;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -31,7 +31,7 @@ public class Asset {
 	
 	private String assetCode;
 	private String assetType;
-	private Date purchaseDate;
+	private LocalDate purchaseDate;
 	
 	@Enumerated(EnumType.STRING)
 	private AssetStatus status;

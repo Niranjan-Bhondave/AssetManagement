@@ -1,6 +1,7 @@
 package com.project.asset_management.entities;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -27,8 +28,8 @@ public class AssetAssignment {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 
-	private Date assignedDate;
-	private Date returnedDate;
+	private LocalDate assignedDate;
+	private LocalDate returnedDate;
 	private String remarks;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
