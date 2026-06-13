@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import com.project.asset_management.repositories.DepartmentRepository;
 import com.project.asset_management.entities.Department;
-import com.project.asset_management.entities.Employee;
 
 import lombok.AllArgsConstructor;
 
@@ -27,7 +26,4 @@ public class DepartmentService {
 		return departmentRepository.findById(id).orElse(null);
 	}
 	
-	public List<Employee> getAllEmployeesOfDepartment(Integer id){
-		return departmentRepository.getAEmployeesOfDepartment(id);
-	}
 }

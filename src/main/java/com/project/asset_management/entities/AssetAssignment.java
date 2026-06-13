@@ -1,11 +1,9 @@
 package com.project.asset_management.entities;
 
-import java.sql.Date;
 import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -32,12 +30,12 @@ public class AssetAssignment {
 	private LocalDate returnedDate;
 	private String remarks;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "asset_id")
-	@JsonBackReference(value = "asset_assetManagement")
+	@JsonBackReference(value = "asset_assetAssignment")
 	private Asset asset;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "employee_id")
 	@JsonBackReference(value = "employee_assetAssignment")
 	private Employee employee;

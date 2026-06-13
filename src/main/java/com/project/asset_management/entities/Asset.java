@@ -38,5 +38,5 @@ public class Asset {
 	
 	@OneToMany(cascade = CascadeType.ALL,mappedBy = "asset")
 	@JsonManagedReference(value = "asset_assetAssignment")
-	private List<AssetAssignment> assetAssignment;
+	private List<AssetAssignment> assetAssignments;
 }

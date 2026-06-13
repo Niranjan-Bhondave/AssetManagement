@@ -1,6 +1,6 @@
 package com.project.asset_management.entities;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import jakarta.persistence.Id;
@@ -39,9 +39,9 @@ public class Employee {
 	
 	private String designation;
 	
-	private Date joiningDate;
+	private LocalDate joiningDate;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JsonBackReference(value = "department_employee")
 	@JoinColumn(name = "department_id")
 	private Department department;
@@ -50,7 +50,7 @@ public class Employee {
 	@JsonManagedReference(value = "employee_employeeProfile")
 	private EmployeeProfile employeeProfile;
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL,mappedBy = "employee")
 	@JsonManagedReference(value = "employee_assetManagement")
-	private List<AssetAssignment> assetAssignment;
+	private List<AssetAssignment> assetAssignments;
 }
