@@ -1,11 +1,13 @@
 package com.project.asset_management.service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 import org.springframework.stereotype.Service;
 
+import com.project.asset_management.DTO.AssetAssignmentDTO;
 import com.project.asset_management.entities.Asset;
 import com.project.asset_management.entities.AssetAssignment;
 import com.project.asset_management.entities.AssetStatus;
@@ -23,7 +25,7 @@ public class AssetAssignmentService {
 	private EmployeeRepository employeeRepository;
 	private AssetRepository assetRepository;
 	
-	public AssetAssignment createAssetAssignment(Integer employeeId, Integer assetId,String remarks) {
+	public AssetAssignmentDTO createAssetAssignment(Integer employeeId, Integer assetId,String remarks) {
 		AssetAssignment assetAssignment = new AssetAssignment();
 		assetAssignment.setAssignedDate(LocalDate.now());
 		
@@ -40,10 +42,11 @@ public class AssetAssignmentService {
 		
 		
 		assetRepository.save(asset);
-		return assetAssignmentRepository.save(assetAssignment);
+		assetAssignmentRepository.save(assetAssignment);
+		return new AssetAssignmentDTO(assetAssignment);
 	}
 	
-	public AssetAssignment returnAsset(Integer assetAssignmentId,LocalDate returnDate) {
+	public AssetAssignmentDTO returnAsset(Integer assetAssignmentId,LocalDate returnDate) {
 		AssetAssignment assetAssignment = assetAssignmentRepository.findById(assetAssignmentId).orElse(null);
 		if(Objects.isNull(assetAssignment))return null;
 		
@@ -52,23 +55,47 @@ public class AssetAssignmentService {
 		assetAssignment.setReturnedDate(returnDate);
 		
 		assetRepository.save(asset);
-		return assetAssignmentRepository.save(assetAssignment);
+		assetAssignmentRepository.save(assetAssignment);
+		
+		return new AssetAssignmentDTO(assetAssignment);
 	}
 	
-	public List<AssetAssignment> getAllDepartments(){
-		return assetAssignmentRepository.findAll();
+	public List<AssetAssignmentDTO> getAllDepartments(){
+		List<AssetAssignment>assetAssignments =  assetAssignmentRepository.findAll();
+		List<AssetAssignmentDTO> responseDTO = new ArrayList<AssetAssignmentDTO>();
+		for(AssetAssignment assetAssignment: assetAssignments) {
+			responseDTO.add(new AssetAssignmentDTO(assetAssignment));
+		}
+		
+		return responseDTO;
+
 	}
 	
-	public AssetAssignment getDepartmentById(Integer id) {
-		return assetAssignmentRepository.findById(id).orElse(null);
+	public AssetAssignmentDTO getDepartmentById(Integer id) {
+		
+		AssetAssignment assetAssignment = assetAssignmentRepository.findById(id).orElse(null);
+		if(Objects.isNull(assetAssignment))return null;
+		return new AssetAssignmentDTO(assetAssignment);
 	}
 	
-	public List<AssetAssignment> getAllActiveAssetAssignments(){
-		return assetAssignmentRepository.getActiveAssetAssignments();
+	public List<AssetAssignmentDTO> getAllActiveAssetAssignments(){
+		List<AssetAssignment>assetAssignments =  assetAssignmentRepository.getActiveAssetAssignments();
+		List<AssetAssignmentDTO> responseDTO = new ArrayList<AssetAssignmentDTO>();
+		for(AssetAssignment assetAssignment: assetAssignments) {
+			responseDTO.add(new AssetAssignmentDTO(assetAssignment));
+		}
+		
+		return responseDTO; 
 	}
 	
-	public List<AssetAssignment> getReturnedAssignments(){
-		return assetAssignmentRepository.getReturnedAssignments();
+	public List<AssetAssignmentDTO> getReturnedAssignments(){
+		List<AssetAssignment>assetAssignments =  assetAssignmentRepository.getReturnedAssignments();
+		List<AssetAssignmentDTO> responseDTO = new ArrayList<AssetAssignmentDTO>();
+		for(AssetAssignment assetAssignment: assetAssignments) {
+			responseDTO.add(new AssetAssignmentDTO(assetAssignment));
+		}
+		
+		return responseDTO;
 	}
 
 
