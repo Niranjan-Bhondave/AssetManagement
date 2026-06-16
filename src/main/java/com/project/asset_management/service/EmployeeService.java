@@ -8,7 +8,6 @@ import java.util.Objects;
 import org.springframework.stereotype.Service;
 
 import com.project.asset_management.DTO.EmployeeDTO;
-import com.project.asset_management.DTO.EmployeeUpdation_DTO;
 import com.project.asset_management.DTO.Employee_AssetAssignmentDTO;
 import com.project.asset_management.DTO.Employee_AssetDTO;
 import com.project.asset_management.entities.Asset;
@@ -47,7 +46,7 @@ public class EmployeeService {
 		return new EmployeeDTO(employee);
 	}
 	
-	public EmployeeUpdation_DTO updateEmployeeDetails(Integer id, Employee newEmployeeDetails) {
+	public EmployeeDTO updateEmployeeDetails(Integer id, Employee newEmployeeDetails) {
 		Employee currentEmployeeDetails = employeeRepository.findById(id).orElse(null);
 		if(Objects.isNull(currentEmployeeDetails)) {
 			System.out.println("Employee not found");
@@ -67,12 +66,9 @@ public class EmployeeService {
 		LocalDate oldJoiningDate = currentEmployeeDetails.getJoiningDate();
 		LocalDate newJoiningDate = newEmployeeDetails.getJoiningDate();
 		
-		if(oldName == null && newName != null  || oldName.compareTo(newName) == 0) {
+		if (!Objects.equals(oldName, newName)) {
 		    currentEmployeeDetails.setName(newName);
 		    changes = true;
-		}
-		
-		if (!Objects.equals(oldName, newName)) {
 		}
 
 		if (!Objects.equals(oldEmail, newEmail)) {
@@ -89,10 +85,9 @@ public class EmployeeService {
 		    currentEmployeeDetails.setJoiningDate(newJoiningDate);
 		    changes = true;
 		}
-		
 		if(changes) {
 			Employee newEmployee =  employeeRepository.save(currentEmployeeDetails);
-			return new EmployeeUpdation_DTO(newEmployee);
+			return new EmployeeDTO(newEmployee);
 		}
 		
 		return null;

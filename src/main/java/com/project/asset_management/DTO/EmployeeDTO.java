@@ -1,5 +1,7 @@
 package com.project.asset_management.DTO;
 
+import java.time.LocalDate;
+
 import com.project.asset_management.entities.Employee;
 
 import lombok.AllArgsConstructor;
@@ -9,25 +11,30 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class EmployeeDTO {
-	private Integer id;
 
-	private String name;
+    private Integer id;
+    private String name;
+    private String email;
+    private String designation;
+    private LocalDate joiningDate;
 
-	private String email;
+    private Integer departmentId;
+    private String departmentName;
 
-	private String designation;
-	private Integer departmentId;
-	private String departmentName;
-	
-	public EmployeeDTO(Employee employee) {
-		id = employee.getId();
-		name = employee.getName();
-		email = employee.getEmail();
-		designation = employee.getDesignation();
-		departmentId = employee.getDepartment().getId();
-		departmentName = employee.getDepartment().getName();
-	}
+    public EmployeeDTO(Employee employee) {
+
+        this.id = employee.getId();
+        this.name = employee.getName();
+        this.email = employee.getEmail();
+        this.designation = employee.getDesignation();
+        this.joiningDate = employee.getJoiningDate();
+
+        if(employee.getDepartment() != null) {
+            this.departmentId = employee.getDepartment().getId();
+            this.departmentName = employee.getDepartment().getName();
+        }
+    }
 }

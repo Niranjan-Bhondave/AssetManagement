@@ -1,9 +1,12 @@
 package com.project.asset_management.repositories;
 
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.project.asset_management.entities.Department;
+import com.project.asset_management.entities.Employee;
 
 public interface DepartmentRepository extends JpaRepository<Department, Integer>{
 //	@Query("SELECT e FROM EMPLOYEE e WHERE e.department.id =: id")
@@ -43,5 +46,5 @@ List<Employee> findByDepartmentId(Integer id);
 
 No `@Query` needed at all. Spring Data JPA will generate the query automatically.
 	 */
-	
+	List<Employee> findByDepartmentId(Integer id);
 }
