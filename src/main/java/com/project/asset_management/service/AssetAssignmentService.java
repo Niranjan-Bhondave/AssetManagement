@@ -1,17 +1,18 @@
 package com.project.asset_management.service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.project.asset_management.DTO.AssetAssignmentDTO;
 import com.project.asset_management.entities.Asset;
 import com.project.asset_management.entities.AssetAssignment;
 import com.project.asset_management.entities.AssetStatus;
 import com.project.asset_management.entities.Employee;
+import com.project.asset_management.exceptions.AssetAssignmentNotFoundException;
 import com.project.asset_management.repositories.AssetAssignmentRepository;
 import com.project.asset_management.repositories.AssetRepository;
 import com.project.asset_management.repositories.EmployeeRepository;
@@ -25,6 +26,7 @@ public class AssetAssignmentService {
 	private EmployeeRepository employeeRepository;
 	private AssetRepository assetRepository;
 	
+	@Transactional
 	public AssetAssignmentDTO createAssetAssignment(Integer employeeId, Integer assetId,String remarks) {
 		AssetAssignment assetAssignment = new AssetAssignment();
 		assetAssignment.setAssignedDate(LocalDate.now());
@@ -46,9 +48,9 @@ public class AssetAssignmentService {
 		return new AssetAssignmentDTO(assetAssignment);
 	}
 	
+	@Transactional
 	public AssetAssignmentDTO returnAsset(Integer assetAssignmentId,LocalDate returnDate) {
 		AssetAssignment assetAssignment = assetAssignmentRepository.findById(assetAssignmentId).orElse(null);
-		if(Objects.isNull(assetAssignment))return null;
 		
 		Asset asset = assetAssignment.getAsset();
 		asset.setStatus(AssetStatus.AVAILABLE);
@@ -61,41 +63,21 @@ public class AssetAssignmentService {
 	}
 	
 	public List<AssetAssignmentDTO> getAllAssetAssignments(){
-		List<AssetAssignment>assetAssignments =  assetAssignmentRepository.findAll();
-		List<AssetAssignmentDTO> responseDTO = new ArrayList<AssetAssignmentDTO>();
-		for(AssetAssignment assetAssignment: assetAssignments) {
-			responseDTO.add(new AssetAssignmentDTO(assetAssignment));
-		}
-		
-		return responseDTO;
-
+		return assetAssignmentRepository.findAll().stream().map(AssetAssignmentDTO::new).toList();
 	}
 	
 	public AssetAssignmentDTO getAssetAssignmentById(Integer id) {
 		
-		AssetAssignment assetAssignment = assetAssignmentRepository.findById(id).orElse(null);
-		if(Objects.isNull(assetAssignment))return null;
+		AssetAssignment assetAssignment = assetAssignmentRepository.findById(id).orElseThrow(()->new AssetAssignmentNotFoundException(id));
 		return new AssetAssignmentDTO(assetAssignment);
 	}
 	
 	public List<AssetAssignmentDTO> getAllActiveAssetAssignments(){
-		List<AssetAssignment>assetAssignments =  assetAssignmentRepository.getActiveAssetAssignments();
-		List<AssetAssignmentDTO> responseDTO = new ArrayList<AssetAssignmentDTO>();
-		for(AssetAssignment assetAssignment: assetAssignments) {
-			responseDTO.add(new AssetAssignmentDTO(assetAssignment));
-		}
-		
-		return responseDTO; 
+		return assetAssignmentRepository.getActiveAssetAssignments().stream().map(AssetAssignmentDTO::new).toList();
 	}
 	
 	public List<AssetAssignmentDTO> getReturnedAssignments(){
-		List<AssetAssignment>assetAssignments =  assetAssignmentRepository.getReturnedAssignments();
-		List<AssetAssignmentDTO> responseDTO = new ArrayList<AssetAssignmentDTO>();
-		for(AssetAssignment assetAssignment: assetAssignments) {
-			responseDTO.add(new AssetAssignmentDTO(assetAssignment));
-		}
-		
-		return responseDTO;
+		return assetAssignmentRepository.getReturnedAssignments().stream().map(AssetAssignmentDTO::new).toList();
 	}
 
 
