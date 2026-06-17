@@ -126,5 +126,9 @@ public class EmployeeService {
 		return responseDTO;
 
 	}
+	
+	public void deleteEmployee(Integer id) {
+		employeeRepository.deleteById(id);
+	}
 
 }

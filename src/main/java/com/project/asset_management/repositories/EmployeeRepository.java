@@ -18,6 +18,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer>{
 	@Query(nativeQuery = true,value = "SELECT * from AssetAssignment WHERE employee_id=:employeeId")
 	public List<AssetAssignment> findAllAssetAssignmentsOfAnEmployee(@Param("employeeId") Integer employeeId);
 	
-	@Query(nativeQuery = true, value = "SELECT a.* FROM asset a JOIN assetAssignment aa ON aa.asset_id = a.id WHERE aa.employee_id = :employeeId ")
+	@Query(nativeQuery = true, value = "SELECT a.* FROM asset a JOIN assetAssignment aa ON aa.asset_id = a.id WHERE aa.employee_id = :employeeId AND aa.returnedDate = NULL")
 	public List<Asset> findAllAssetsAssignedToAnEmployee(@Param("employeeId") Integer employeeId);
 }

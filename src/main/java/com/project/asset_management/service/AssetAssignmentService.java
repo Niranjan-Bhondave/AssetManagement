@@ -60,7 +60,7 @@ public class AssetAssignmentService {
 		return new AssetAssignmentDTO(assetAssignment);
 	}
 	
-	public List<AssetAssignmentDTO> getAllDepartments(){
+	public List<AssetAssignmentDTO> getAllAssetAssignments(){
 		List<AssetAssignment>assetAssignments =  assetAssignmentRepository.findAll();
 		List<AssetAssignmentDTO> responseDTO = new ArrayList<AssetAssignmentDTO>();
 		for(AssetAssignment assetAssignment: assetAssignments) {
@@ -71,7 +71,7 @@ public class AssetAssignmentService {
 
 	}
 	
-	public AssetAssignmentDTO getDepartmentById(Integer id) {
+	public AssetAssignmentDTO getAssetAssignmentById(Integer id) {
 		
 		AssetAssignment assetAssignment = assetAssignmentRepository.findById(id).orElse(null);
 		if(Objects.isNull(assetAssignment))return null;
