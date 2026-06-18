@@ -42,12 +42,12 @@ public class AssetService {
 		return new AssetResponseDTO(asset);
 	}
 	
-	public List<AssetResponseDTO> getAssetsByStatus(String assetStatus){
+	public List<AssetResponseDTO> getAssetsByStatus(AssetStatus assetStatus){
 		if(Objects.isNull(assetStatus)) 
 			return getAllAssets();
 		
-		assetStatus = assetStatus.trim().toLowerCase();
-		return assetRepository.findAllAssetsByStatus(assetStatus).stream().map(AssetResponseDTO::new).toList();
+		String assetStatusString = assetStatus.toString().trim().toLowerCase();
+		return assetRepository.findAllAssetsByStatus(assetStatusString).stream().map(AssetResponseDTO::new).toList();
 	}
 	
 	public List<AssetAssignmentResponseDTO> getAssetAssignmentsForAnAsset(Integer assetId){
@@ -55,7 +55,7 @@ public class AssetService {
 	}
 	
 	@Transactional
-	public AssetResponseDTO updateAsset(Integer id, Asset newAssetDetails) {
+	public AssetResponseDTO updateAsset(Integer id, AssetRequestDTO newAssetDetails) {
 		Asset currentAssetDetails = assetRepository.findById(id).orElseThrow(()->new AssetNotFoundException(id));
 		boolean changes = false;
 
