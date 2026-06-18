@@ -13,7 +13,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AssetAssignmentDTO {
+public class AssetAssignmentResponseDTO {
     private Integer assignmentId;
 
     private Integer employeeId;
@@ -24,7 +24,7 @@ public class AssetAssignmentDTO {
 
     private String remarks;
     
-    public AssetAssignmentDTO(AssetAssignment assetAssignment) {
+    public AssetAssignmentResponseDTO(AssetAssignment assetAssignment) {
     	assignmentId = assetAssignment.getId();
     	employeeId = assetAssignment.getEmployee().getId();
     	employeeName = assetAssignment.getEmployee().getName();

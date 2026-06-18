@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.asset_management.DTO.DepartmentDTO;
-import com.project.asset_management.DTO.EmployeeDTO;
-import com.project.asset_management.entities.Department;
+import com.project.asset_management.DTO.DepartmentRequestDTO;
+import com.project.asset_management.DTO.DepartmentResponseDTO;
+import com.project.asset_management.DTO.EmployeeResponseDTO;
 import com.project.asset_management.service.DepartmentService;
 
 import lombok.AllArgsConstructor;
@@ -24,22 +24,22 @@ public class DepartmentController {
 	DepartmentService departmentService;
 	
 	@PostMapping(path = "api/departments")
-	public DepartmentDTO createDepartment(@RequestBody Department department) {
+	public DepartmentResponseDTO createDepartment(@RequestBody DepartmentRequestDTO department) {
 		return departmentService.createDepartment(department);
 	}
 
 	@GetMapping(path = "api/departments")
-	public List<DepartmentDTO> getAllDepartments(){
+	public List<DepartmentResponseDTO> getAllDepartments(){
 		return departmentService.getAllDepartments();
 	}
 
 	@GetMapping(path = "api/departments/{id}")
-	public DepartmentDTO getDepartmentById(@PathVariable Integer id) {
+	public DepartmentResponseDTO getDepartmentById(@PathVariable Integer id) {
 		return departmentService.getDepartmentById(id);
 	}
 
 	@PutMapping(path = "api/departments/{id}")
-	public DepartmentDTO updateDepartment(@RequestBody Department newDepartment, @PathVariable Integer id) {
+	public DepartmentResponseDTO updateDepartment(@RequestBody DepartmentRequestDTO newDepartment, @PathVariable Integer id) {
 		return departmentService.updateDepartment(newDepartment, id);
 	}
 
@@ -49,7 +49,7 @@ public class DepartmentController {
 	}
 	
 	@GetMapping(path = "api/departments/{id}/employees")
-	public List<EmployeeDTO> getAllEmployeesOfDepartment(@PathVariable Integer id){
+	public List<EmployeeResponseDTO> getAllEmployeesOfDepartment(@PathVariable Integer id){
 		return departmentService.findEmployeesByDepartment(id);
 	}
 }

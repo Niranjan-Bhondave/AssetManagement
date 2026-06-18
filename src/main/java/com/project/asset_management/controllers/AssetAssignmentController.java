@@ -7,7 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.project.asset_management.DTO.AssetAssignmentDTO;
+import com.project.asset_management.DTO.AssetAssignmentResponseDTO;
 import com.project.asset_management.service.AssetAssignmentService;
 
 import lombok.AllArgsConstructor;
@@ -20,12 +20,12 @@ public class AssetAssignmentController {
     private AssetAssignmentService assetAssignmentService;
 
     @PostMapping
-    public ResponseEntity<AssetAssignmentDTO> createAssetAssignment(
+    public ResponseEntity<AssetAssignmentResponseDTO> createAssetAssignment(
             @RequestParam Integer employeeId,
             @RequestParam Integer assetId,
             @RequestParam(required = false) String remarks) {
 
-        AssetAssignmentDTO response =
+        AssetAssignmentResponseDTO response =
                 assetAssignmentService.createAssetAssignment(employeeId, assetId, remarks);
 
         if (response == null) {
@@ -36,14 +36,14 @@ public class AssetAssignmentController {
     }
 
     @PutMapping("/{assignmentId}/return")
-    public ResponseEntity<AssetAssignmentDTO> returnAsset(
+    public ResponseEntity<AssetAssignmentResponseDTO> returnAsset(
             @PathVariable Integer assignmentId,
 
             @RequestParam
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
             LocalDate returnDate) {
 
-        AssetAssignmentDTO response =
+        AssetAssignmentResponseDTO response =
                 assetAssignmentService.returnAsset(assignmentId, returnDate);
 
         if (response == null) {
@@ -54,16 +54,16 @@ public class AssetAssignmentController {
     }
 
     @GetMapping
-    public ResponseEntity<List<AssetAssignmentDTO>> getAllAssignments() {
+    public ResponseEntity<List<AssetAssignmentResponseDTO>> getAllAssignments() {
         return ResponseEntity.ok(
                 assetAssignmentService.getAllAssetAssignments());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AssetAssignmentDTO> getAssignmentById(
+    public ResponseEntity<AssetAssignmentResponseDTO> getAssignmentById(
             @PathVariable Integer id) {
 
-        AssetAssignmentDTO response =
+        AssetAssignmentResponseDTO response =
                 assetAssignmentService.getAssetAssignmentById(id);
 
         if (response == null) {
@@ -74,14 +74,14 @@ public class AssetAssignmentController {
     }
 
     @GetMapping("/active")
-    public ResponseEntity<List<AssetAssignmentDTO>> getActiveAssignments() {
+    public ResponseEntity<List<AssetAssignmentResponseDTO>> getActiveAssignments() {
         return ResponseEntity.ok(
                 assetAssignmentService.getAllActiveAssetAssignments()
         );
     }
 
     @GetMapping("/returned")
-    public ResponseEntity<List<AssetAssignmentDTO>> getReturnedAssignments() {
+    public ResponseEntity<List<AssetAssignmentResponseDTO>> getReturnedAssignments() {
         return ResponseEntity.ok(
                 assetAssignmentService.getReturnedAssignments()
         );

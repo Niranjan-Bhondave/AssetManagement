@@ -7,11 +7,14 @@ import java.util.Objects;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.project.asset_management.DTO.EmployeeDTO;
+import com.project.asset_management.DTO.EmployeeRequestDTO;
+import com.project.asset_management.DTO.EmployeeResponseDTO;
 import com.project.asset_management.DTO.Employee_AssetAssignmentDTO;
 import com.project.asset_management.DTO.Employee_AssetDTO;
 import com.project.asset_management.entities.Employee;
+import com.project.asset_management.exceptions.DepartmentNotFoundException;
 import com.project.asset_management.exceptions.EmployeeNotFoundException;
+import com.project.asset_management.repositories.DepartmentRepository;
 import com.project.asset_management.repositories.EmployeeRepository;
 
 import lombok.AllArgsConstructor;
@@ -23,24 +26,31 @@ import lombok.NoArgsConstructor;
 public class EmployeeService {
 
 	private EmployeeRepository employeeRepository;
+	private DepartmentRepository departmentRepository;
 	
 	@Transactional
-	public EmployeeDTO createEmployee(Employee employee) {
-		Employee newEmployee =  employeeRepository.save(employee);
-		return new EmployeeDTO(newEmployee);
+	public EmployeeResponseDTO createEmployee(EmployeeRequestDTO employee) {
+		Employee newEmployee =  new Employee();
+		newEmployee.setDesignation(employee.getDesignation());
+		newEmployee.setDepartment(departmentRepository.findById(employee.getDepartmentId()).orElseThrow(()->new DepartmentNotFoundException(employee.getDepartmentId())));
+		newEmployee.setName(employee.getName());
+		newEmployee.setEmail(employee.getEmail());
+		newEmployee.setJoiningDate(employee.getJoiningDate());
+	
+		return new EmployeeResponseDTO(newEmployee);
 	}
 	
-	public List<EmployeeDTO> getAllEmployees(){
-		return employeeRepository.findAll().stream().map(EmployeeDTO::new).toList();
+	public List<EmployeeResponseDTO> getAllEmployees(){
+		return employeeRepository.findAll().stream().map(EmployeeResponseDTO::new).toList();
 	}
 	
-	public EmployeeDTO getEmployeeById(Integer id) {
+	public EmployeeResponseDTO getEmployeeById(Integer id) {
 		Employee employee =  employeeRepository.findById(id).orElseThrow(()->new EmployeeNotFoundException(id));
-		return new EmployeeDTO(employee);
+		return new EmployeeResponseDTO(employee);
 	}
 	
 	@Transactional
-	public EmployeeDTO updateEmployeeDetails(Integer id, Employee newEmployeeDetails) {
+	public EmployeeResponseDTO updateEmployeeDetails(Integer id, EmployeeRequestDTO newEmployeeDetails) {
 		Employee currentEmployeeDetails = employeeRepository.findById(id).orElseThrow(()->new EmployeeNotFoundException(id));
 		boolean changes = false;
 
@@ -55,6 +65,9 @@ public class EmployeeService {
 
 		LocalDate oldJoiningDate = currentEmployeeDetails.getJoiningDate();
 		LocalDate newJoiningDate = newEmployeeDetails.getJoiningDate();
+		
+		Integer oldDepartmentId = currentEmployeeDetails.getDepartment().getId();
+		Integer newDepartmentId = newEmployeeDetails.getDepartmentId();
 		
 		if (!Objects.equals(oldName, newName)) {
 		    currentEmployeeDetails.setName(newName);
@@ -75,14 +88,22 @@ public class EmployeeService {
 		    currentEmployeeDetails.setJoiningDate(newJoiningDate);
 		    changes = true;
 		}
+		
+		if (!Objects.equals(oldDepartmentId, newDepartmentId) && newDepartmentId != null && departmentRepository.findById(newDepartmentId) != null) {
+		    currentEmployeeDetails.setDepartment(departmentRepository.findById(newDepartmentId).orElse(null));
+		    changes = true;
+		}
+ 
 		if(changes) {
 			employeeRepository.save(currentEmployeeDetails);
 		}
-		return new EmployeeDTO(currentEmployeeDetails);
+		
+		
+		return new EmployeeResponseDTO(currentEmployeeDetails);
 	}
 	
-	public List<EmployeeDTO> getAllEmployeesOfDepartment(Integer id){
-		return employeeRepository.findByDepartmentId(id).stream().map(EmployeeDTO::new).toList();
+	public List<EmployeeResponseDTO> getAllEmployeesOfDepartment(Integer id){
+		return employeeRepository.findByDepartmentId(id).stream().map(EmployeeResponseDTO::new).toList();
 	}
 	
 	public List<Employee_AssetAssignmentDTO> findAllAssetAssignmentsOfAnEmployee(Integer employeeId){

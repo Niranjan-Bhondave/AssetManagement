@@ -13,7 +13,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class EmployeeDTO {
+public class EmployeeResponseDTO {
 
     private Integer id;
     private String name;
@@ -24,7 +24,7 @@ public class EmployeeDTO {
     private Integer departmentId;
     private String departmentName;
 
-    public EmployeeDTO(Employee employee) {
+    public EmployeeResponseDTO(Employee employee) {
 
         this.id = employee.getId();
         this.name = employee.getName();

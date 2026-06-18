@@ -14,14 +14,14 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AssetDTO {
+public class AssetResponseDTO {
 	private Integer id;
 	private String assetCode;
 	private String assetType;
     private LocalDate purchaseDate;
     private AssetStatus status;
 
-	public AssetDTO(Asset asset) {
+	public AssetResponseDTO(Asset asset) {
 		id = asset.getId();
 		assetCode = asset.getAssetCode();
 		assetType = asset.getAssetType();

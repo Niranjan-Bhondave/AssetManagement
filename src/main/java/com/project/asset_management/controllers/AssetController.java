@@ -11,8 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.asset_management.DTO.AssetAssignmentDTO;
-import com.project.asset_management.DTO.AssetDTO;
+import com.project.asset_management.DTO.AssetAssignmentResponseDTO;
+import com.project.asset_management.DTO.AssetRequestDTO;
+import com.project.asset_management.DTO.AssetResponseDTO;
 import com.project.asset_management.entities.Asset;
 import com.project.asset_management.service.AssetService;
 
@@ -24,22 +25,22 @@ public class AssetController {
 	
 	private AssetService assetService;
 	@PostMapping(path = "api/assets")
-	public AssetDTO createAsset(@RequestBody Asset asset) {
-		return assetService.createAsset(asset);
+	public AssetResponseDTO createAsset(@RequestBody AssetRequestDTO assetRequestDTO) {
+		return assetService.createAsset(assetRequestDTO);
 	}
 	
 	@GetMapping(path = "api/assets")
-	public List<AssetDTO> getAllAssets(){
+	public List<AssetResponseDTO> getAllAssets(){
 		return assetService.getAllAssets();
 	}
 	
 	@GetMapping(path = "api/assets/{id}")
-	public AssetDTO getAssetById(@PathVariable Integer id) {
+	public AssetResponseDTO getAssetById(@PathVariable Integer id) {
 		return assetService.getAssetById(id);
 	}
 	
 	@PutMapping(path = "api/assets/{id}")
-	public AssetDTO updateAsset(@RequestBody Asset newAsset, @PathVariable Integer id) {
+	public AssetResponseDTO updateAsset(@RequestBody Asset newAsset, @PathVariable Integer id) {
 		return assetService.updateAsset(id, newAsset);
 	}
 	
@@ -49,12 +50,12 @@ public class AssetController {
 	}
 	
 	@GetMapping(path = "api/assets")
-	public List<AssetDTO> getAssetsByStatus(@RequestParam String status){
+	public List<AssetResponseDTO> getAssetsByStatus(@RequestParam String status){
 		return assetService.getAssetsByStatus(status);
 	}
 	
 	@GetMapping(path = "api/assets/{id}/assignments")
-	public List<AssetAssignmentDTO> getAssetAssignmentsForAnAsset(@PathVariable Integer id){
+	public List<AssetAssignmentResponseDTO> getAssetAssignmentsForAnAsset(@PathVariable Integer id){
 		return assetService.getAssetAssignmentsForAnAsset(id);
 	}
 }

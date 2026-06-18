@@ -11,12 +11,12 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class DepartmentDTO {
+public class DepartmentResponseDTO {
 	private Integer id;
 	private String name;
 	private String location;
 	
-	public DepartmentDTO(Department department) {
+	public DepartmentResponseDTO(Department department) {
 		id = department.getId();
 		name = department.getName();
 		location = department.getLocation();

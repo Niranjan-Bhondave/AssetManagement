@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.asset_management.DTO.EmployeeDTO;
+import com.project.asset_management.DTO.EmployeeRequestDTO;
+import com.project.asset_management.DTO.EmployeeResponseDTO;
 import com.project.asset_management.DTO.Employee_AssetAssignmentDTO;
 import com.project.asset_management.DTO.Employee_AssetDTO;
-import com.project.asset_management.entities.Employee;
 import com.project.asset_management.service.EmployeeService;
 
 import lombok.AllArgsConstructor;
@@ -24,22 +24,22 @@ public class EmployeeController {
 	private EmployeeService employeeService;
 	
 	@PostMapping(path = "api/employees")
-	public EmployeeDTO createEmployee(@RequestBody Employee employee) {
+	public EmployeeResponseDTO createEmployee(@RequestBody EmployeeRequestDTO employee) {
 		return employeeService.createEmployee(employee);
 	}
 	
 	@GetMapping(path = "api/employees")
-	public List<EmployeeDTO> getAllEmployees(){
+	public List<EmployeeResponseDTO> getAllEmployees(){
 		return employeeService.getAllEmployees();
 	}
 	
 	@GetMapping(path = "api/employees/{id}")
-	public EmployeeDTO getEmployeeById(@PathVariable Integer id) {
+	public EmployeeResponseDTO getEmployeeById(@PathVariable Integer id) {
 		return employeeService.getEmployeeById(id);
 	}
 	
 	@PutMapping(path = "api/employees/{id}")
-	public EmployeeDTO updateEmployee(@RequestBody Employee newEmployee, @PathVariable Integer id) {
+	public EmployeeResponseDTO updateEmployee(@RequestBody EmployeeRequestDTO newEmployee, @PathVariable Integer id) {
 		return employeeService.updateEmployeeDetails(id, newEmployee);
 	}
 	

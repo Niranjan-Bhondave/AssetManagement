@@ -7,7 +7,7 @@ import java.util.Objects;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.project.asset_management.DTO.AssetAssignmentDTO;
+import com.project.asset_management.DTO.AssetAssignmentResponseDTO;
 import com.project.asset_management.entities.Asset;
 import com.project.asset_management.entities.AssetAssignment;
 import com.project.asset_management.entities.AssetStatus;
@@ -27,7 +27,7 @@ public class AssetAssignmentService {
 	private AssetRepository assetRepository;
 	
 	@Transactional
-	public AssetAssignmentDTO createAssetAssignment(Integer employeeId, Integer assetId,String remarks) {
+	public AssetAssignmentResponseDTO createAssetAssignment(Integer employeeId, Integer assetId,String remarks) {
 		AssetAssignment assetAssignment = new AssetAssignment();
 		assetAssignment.setAssignedDate(LocalDate.now());
 		
@@ -45,11 +45,11 @@ public class AssetAssignmentService {
 		
 		assetRepository.save(asset);
 		assetAssignmentRepository.save(assetAssignment);
-		return new AssetAssignmentDTO(assetAssignment);
+		return new AssetAssignmentResponseDTO(assetAssignment);
 	}
 	
 	@Transactional
-	public AssetAssignmentDTO returnAsset(Integer assetAssignmentId,LocalDate returnDate) {
+	public AssetAssignmentResponseDTO returnAsset(Integer assetAssignmentId,LocalDate returnDate) {
 		AssetAssignment assetAssignment = assetAssignmentRepository.findById(assetAssignmentId).orElse(null);
 		
 		Asset asset = assetAssignment.getAsset();
@@ -59,25 +59,25 @@ public class AssetAssignmentService {
 		assetRepository.save(asset);
 		assetAssignmentRepository.save(assetAssignment);
 		
-		return new AssetAssignmentDTO(assetAssignment);
+		return new AssetAssignmentResponseDTO(assetAssignment);
 	}
 	
-	public List<AssetAssignmentDTO> getAllAssetAssignments(){
-		return assetAssignmentRepository.findAll().stream().map(AssetAssignmentDTO::new).toList();
+	public List<AssetAssignmentResponseDTO> getAllAssetAssignments(){
+		return assetAssignmentRepository.findAll().stream().map(AssetAssignmentResponseDTO::new).toList();
 	}
 	
-	public AssetAssignmentDTO getAssetAssignmentById(Integer id) {
+	public AssetAssignmentResponseDTO getAssetAssignmentById(Integer id) {
 		
 		AssetAssignment assetAssignment = assetAssignmentRepository.findById(id).orElseThrow(()->new AssetAssignmentNotFoundException(id));
-		return new AssetAssignmentDTO(assetAssignment);
+		return new AssetAssignmentResponseDTO(assetAssignment);
 	}
 	
-	public List<AssetAssignmentDTO> getAllActiveAssetAssignments(){
-		return assetAssignmentRepository.getActiveAssetAssignments().stream().map(AssetAssignmentDTO::new).toList();
+	public List<AssetAssignmentResponseDTO> getAllActiveAssetAssignments(){
+		return assetAssignmentRepository.getActiveAssetAssignments().stream().map(AssetAssignmentResponseDTO::new).toList();
 	}
 	
-	public List<AssetAssignmentDTO> getReturnedAssignments(){
-		return assetAssignmentRepository.getReturnedAssignments().stream().map(AssetAssignmentDTO::new).toList();
+	public List<AssetAssignmentResponseDTO> getReturnedAssignments(){
+		return assetAssignmentRepository.getReturnedAssignments().stream().map(AssetAssignmentResponseDTO::new).toList();
 	}
 
 

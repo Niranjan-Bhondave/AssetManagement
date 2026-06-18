@@ -7,8 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.project.asset_management.repositories.DepartmentRepository;
-import com.project.asset_management.DTO.DepartmentDTO;
-import com.project.asset_management.DTO.EmployeeDTO;
+import com.project.asset_management.DTO.DepartmentRequestDTO;
+import com.project.asset_management.DTO.DepartmentResponseDTO;
+import com.project.asset_management.DTO.EmployeeResponseDTO;
 import com.project.asset_management.entities.Department;
 import com.project.asset_management.exceptions.DepartmentNotFoundException;
 
@@ -20,22 +21,24 @@ public class DepartmentService {
 	private DepartmentRepository departmentRepository;
 
 	@Transactional
-	public DepartmentDTO createDepartment(Department department) {
-		Department savedDepartment = departmentRepository.save(department);
-		return new DepartmentDTO(savedDepartment);
+	public DepartmentResponseDTO createDepartment(DepartmentRequestDTO departmentRequestDTO) {
+		Department department = new Department();
+		department.setName(departmentRequestDTO.getName());
+		department.setLocation(departmentRequestDTO.getLocation());
+		return new DepartmentResponseDTO(departmentRepository.save(department));
 	}
 	
-	public List<DepartmentDTO> getAllDepartments(){
-		return 	departmentRepository.findAll().stream().map(DepartmentDTO::new).toList();
+	public List<DepartmentResponseDTO> getAllDepartments(){
+		return 	departmentRepository.findAll().stream().map(DepartmentResponseDTO::new).toList();
 	}
 	
-	public DepartmentDTO getDepartmentById(Integer id) {
+	public DepartmentResponseDTO getDepartmentById(Integer id) {
 		Department department = departmentRepository.findById(id).orElseThrow(()->new DepartmentNotFoundException(id));
-		return new DepartmentDTO(department);
+		return new DepartmentResponseDTO(department);
 	}
 	
 	@Transactional
-	public DepartmentDTO updateDepartment(Department newDepartment, Integer id) {
+	public DepartmentResponseDTO updateDepartment(DepartmentRequestDTO newDepartment, Integer id) {
 		Department oldDepartment = departmentRepository.findById(id).orElseThrow(()->new DepartmentNotFoundException(id));
 		
 		String oldName = oldDepartment.getName();
@@ -58,7 +61,7 @@ public class DepartmentService {
 		if(changes == true) {
 			departmentRepository.save(oldDepartment);
 		}
-		return new DepartmentDTO(oldDepartment);
+		return new DepartmentResponseDTO(oldDepartment);
 	}
 	
 	@Transactional
@@ -66,7 +69,7 @@ public class DepartmentService {
 		departmentRepository.deleteById(id);
 	}
 	
-	public List<EmployeeDTO> findEmployeesByDepartment(Integer id){
-		return departmentRepository.findByDepartmentId(id).stream().map(EmployeeDTO::new).toList();
+	public List<EmployeeResponseDTO> findEmployeesByDepartment(Integer id){
+		return departmentRepository.findByDepartmentId(id).stream().map(EmployeeResponseDTO::new).toList();
 	}
 }
