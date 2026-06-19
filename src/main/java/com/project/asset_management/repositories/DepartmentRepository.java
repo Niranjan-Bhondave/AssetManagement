@@ -4,6 +4,8 @@ package com.project.asset_management.repositories;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.project.asset_management.entities.Department;
 import com.project.asset_management.entities.Employee;
@@ -46,5 +48,6 @@ List<Employee> findByDepartmentId(Integer id);
 
 No `@Query` needed at all. Spring Data JPA will generate the query automatically.
 	 */
-	List<Employee> findByDepartmentId(Integer id);
+	@Query(nativeQuery = true,value = "SELECT * FROM Employee e WHERE e.department_id=:departmentId")
+	List<Employee> getAllEmployeesOfTheDepartment(@Param("departmentId") Integer departmentId);
 }

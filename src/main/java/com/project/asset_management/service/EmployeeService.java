@@ -18,11 +18,9 @@ import com.project.asset_management.repositories.DepartmentRepository;
 import com.project.asset_management.repositories.EmployeeRepository;
 
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 
 @Service
 @AllArgsConstructor
-@NoArgsConstructor
 public class EmployeeService {
 
 	private EmployeeRepository employeeRepository;
@@ -37,7 +35,7 @@ public class EmployeeService {
 		newEmployee.setEmail(employee.getEmail());
 		newEmployee.setJoiningDate(employee.getJoiningDate());
 	
-		return new EmployeeResponseDTO(newEmployee);
+		return new EmployeeResponseDTO(employeeRepository.save(newEmployee));
 	}
 	
 	public List<EmployeeResponseDTO> getAllEmployees(){

@@ -14,7 +14,7 @@ public interface AssetRepository extends JpaRepository<Asset, Integer>{
 	@Query(nativeQuery = true, value = "SELECT * FROM Asset WHERE LOWER(status)=:assetStatus ")
 	public List<Asset> findAllAssetsByStatus(@Param("assetStatus") String assetStatus);
 	
-	@Query(nativeQuery = true, value = "SELECT * FROM AssetAssignment WHERE asset_id =: assetId")
+	@Query(nativeQuery = true, value = "SELECT * FROM Asset_Assignment WHERE asset_id =: assetId")
 	public List<AssetAssignment> getAssetAssignmentsForAnAsset(@Param("assetId")Integer assetId);
 	
 	@Query(nativeQuery = true, value = "SELECT COUNT(*) AS ASSET_COUNT FROM ASSET")

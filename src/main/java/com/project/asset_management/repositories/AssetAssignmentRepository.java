@@ -9,10 +9,10 @@ import com.project.asset_management.entities.AssetAssignment;
 
 public interface AssetAssignmentRepository extends JpaRepository<AssetAssignment, Integer>{
 
-	@Query(nativeQuery = true, value = "SELECT * FROM AsssetAssignment WHERE returnedDate IS NULL")
+	@Query(nativeQuery = true, value = "SELECT * FROM Asset_Assignment WHERE returned_Date IS NULL")
 	public List<AssetAssignment> getActiveAssetAssignments();
 	
-	@Query(nativeQuery = true, value = "SELECT * FROM AsssetAssignment WHERE returnedDate IS NOT NULL")
+	@Query(nativeQuery = true, value = "SELECT * FROM Asset_Assignment WHERE returned_Date IS NOT NULL")
 	public List<AssetAssignment> getReturnedAssignments();
 
 }

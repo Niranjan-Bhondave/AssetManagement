@@ -37,18 +37,18 @@ public class AssetController {
 	
 	
 	@GetMapping(path = "/{assetId}")
-	public AssetResponseDTO getAssetById(@PathVariable Integer id) {
+	public AssetResponseDTO getAssetById(@PathVariable("assetId") Integer id) {
 		return assetService.getAssetById(id);
 	}
 	
 	@PutMapping(path = "/{assetId}")
-	public AssetResponseDTO updateAsset(@RequestBody AssetRequestDTO newAsset, @PathVariable Integer id) {
+	public AssetResponseDTO updateAsset(@RequestBody AssetRequestDTO newAsset, @PathVariable("assetId") Integer id) {
 		return assetService.updateAsset(id, newAsset);
 	}
 	
 	@DeleteMapping(path = "/{assetId}")
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
-	public void deleteAsset(@PathVariable Integer id) {
+	public void deleteAsset(@PathVariable("assetId") Integer id) {
 		assetService.deleteAsset(id);
 	}
 	
@@ -59,7 +59,7 @@ public class AssetController {
 	}
 	
 	@GetMapping(path = "/{assetId}/assignments")
-	public List<AssetAssignmentResponseDTO> getAssetAssignmentsForAnAsset(@PathVariable Integer id){
+	public List<AssetAssignmentResponseDTO> getAssetAssignmentsForAnAsset(@PathVariable("assetId") Integer id){
 		return assetService.getAssetAssignmentsForAnAsset(id);
 	}
 }

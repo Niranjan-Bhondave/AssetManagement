@@ -70,6 +70,6 @@ public class DepartmentService {
 	}
 	
 	public List<EmployeeResponseDTO> findEmployeesByDepartment(Integer id){
-		return departmentRepository.findByDepartmentId(id).stream().map(EmployeeResponseDTO::new).toList();
+		return departmentRepository.getAllEmployeesOfTheDepartment(id).stream().map(EmployeeResponseDTO::new).toList();
 	}
 }
